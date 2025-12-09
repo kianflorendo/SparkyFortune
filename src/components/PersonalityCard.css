@@ -1,8 +1,8 @@
 .sparky-flying {
   position: fixed;
-  top: calc(50% - 360px);
-  left: calc(50% + 220px);
-  width: 200px;
+  top: calc(50% - clamp(280px, 35vh, 360px));
+  left: calc(50% + clamp(150px, 20vw, 220px));
+  width: clamp(120px, 18vw, 200px);
   height: auto;
   z-index: 10001;
   animation: floatSparky 3s ease-in-out infinite;
@@ -32,18 +32,20 @@
   }
 }
 
-/* Tablet responsiveness for Sparky */
+/* Tablet and mobile responsiveness for Sparky */
 @media (max-width: 1024px) {
   .sparky-flying {
-    left: calc(50% + 250px);
+    top: calc(50% - clamp(250px, 30vh, 320px));
+    left: calc(50% + clamp(130px, 18vw, 180px));
     width: clamp(100px, 15vw, 140px);
   }
 }
 
 @media (max-width: 768px) {
   .sparky-flying {
-    left: calc(50% + 200px);
-    width: 100px;
+    top: calc(50% - 220px);
+    left: calc(50% + 120px);
+    width: 90px;
   }
 }
 
@@ -52,11 +54,11 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 600px;
-  width: calc(100% - 2rem);
-  max-height: 85vh;
+  max-width: min(600px, 95vw);
+  width: calc(100% - clamp(1rem, 3vw, 2rem));
+  max-height: min(85vh, 85dvh);
   overflow-y: auto;
-  overflow-x: visible;
+  overflow-x: hidden;
   background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
   border: 3px solid #ffd700;
   border-radius: 20px;
@@ -99,7 +101,7 @@
 
 
 .card-header {
-  padding: 2.5rem 2rem;
+  padding: clamp(2rem, 5vw, 2.5rem) clamp(1.5rem, 4vw, 2rem);
   text-align: center;
   color: white;
   position: relative;
@@ -139,21 +141,21 @@
 }
 
 .card-header h2 {
-  margin: 0 0 1rem 0;
-  font-size: 0.9rem;
+  margin: 0 0 clamp(0.75rem, 2vw, 1rem) 0;
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
   font-weight: 600;
   color: #fff;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: clamp(1px, 0.5vw, 2px);
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .card-header h1 {
   margin: 0;
-  font-size: 2.2rem;
+  font-size: clamp(1.75rem, 5vw, 2.2rem);
   font-weight: 700;
   color: #fff;
-  letter-spacing: 1px;
+  letter-spacing: clamp(0.5px, 0.3vw, 1px);
   text-shadow: 
     0 2px 4px rgba(0, 0, 0, 0.9),
     0 4px 8px rgba(0, 0, 0, 0.6),
@@ -161,7 +163,7 @@
 }
 
 .card-body {
-  padding: 2rem;
+  padding: clamp(1.5rem, 4vw, 2rem);
 }
 
 .message-section {
@@ -301,58 +303,99 @@
   max-width: 750px;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .sparky-flying {
     display: none;
   }
 
   .personality-card {
-    width: calc(100% - 2rem);
-    max-width: 95%;
-    max-height: 85vh;
+    width: calc(100% - 1.5rem);
+    max-width: 96vw;
+    max-height: min(88vh, 88dvh);
   }
 
   .card-header {
-    padding: 2.5rem 1.5rem 2rem;
+    padding: 2rem 1.5rem;
   }
 
   .card-header h1 {
-    font-size: 2rem;
+    font-size: clamp(1.6rem, 6vw, 2rem);
   }
 
   .card-header h2 {
-    font-size: 1.1rem;
+    font-size: clamp(0.8rem, 2.5vw, 0.9rem);
   }
 
   .card-body {
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 1.25rem;
   }
   
   .message {
-    font-size: 1.05rem;
-    padding: 1.8rem 1.5rem 1.8rem 2.5rem;
-    line-height: 1.7;
+    font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+    padding: clamp(1.25rem, 3vw, 1.5rem);
+    line-height: 1.65;
   }
 
   .message-section h3,
   .traits-section h3 {
-    font-size: 1.2rem;
+    font-size: clamp(1.05rem, 3vw, 1.2rem);
+    margin-bottom: 0.85rem;
   }
 
   .traits-list li {
-    font-size: 1rem;
-    padding: 1rem 1.2rem 1rem 2.8rem;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    padding: clamp(0.85rem, 2.5vw, 1rem) clamp(1rem, 2.5vw, 1.2rem);
   }
 
-  .personality-card::before,
-  .personality-card::after {
-    font-size: 2rem;
-    top: 15px;
+  .restart-button {
+    font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+    padding: clamp(0.9rem, 2.5vw, 1rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .personality-card {
+    width: calc(100% - 1rem);
+    max-width: 98vw;
+    border-radius: 16px;
   }
 
-  .card-body::before,
-  .card-body::after {
-    font-size: 2rem;
-    bottom: 15px;
+  .card-header {
+    padding: 1.75rem 1.25rem;
+    border-radius: 13px 13px 0 0;
+  }
+
+  .card-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .card-header h2 {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+  }
+
+  .card-body {
+    padding: 1.25rem 1rem;
+  }
+
+  .message {
+    font-size: 0.95rem;
+    padding: 1.25rem;
+  }
+
+  .message-section h3,
+  .traits-section h3 {
+    font-size: 1.05rem;
+  }
+
+  .traits-list li {
+    font-size: 0.9rem;
+    padding: 0.85rem 1rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .restart-button {
+    font-size: 0.95rem;
+    padding: 0.9rem;
   }
 }
