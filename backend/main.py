@@ -13,13 +13,17 @@ load_dotenv()
 app = FastAPI(title="Fun Fortune API")
 
 # Configure CORS - allows both development and production origins
-ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:5174,http://localhost:5175").split(",")
-if os.getenv("PRODUCTION_URL"):
-    ALLOWED_ORIGINS.append(os.getenv("PRODUCTION_URL"))
+ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:5175",
+    "https://sparkyfortunegdg-3m0pzvepa-kian-angelo-m-florendos-projects.vercel.app",
+    "https://*.vercel.app",  # Allow all Vercel preview deployments
+]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=ALLOWED_ORIGINS if len(ALLOWED_ORIGINS) > 0 else ["*"],
+    allow_origins=["*"],  # Allow all origins for simplicity
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
