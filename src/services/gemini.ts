@@ -1,5 +1,5 @@
-// Backend API URL - Force localhost for now
-const API_URL = 'http://localhost:8000';
+// Backend API URL - uses environment variable or falls back to localhost
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 console.log('🔗 Backend API URL:', API_URL);
 
 export interface PersonalityAnalysisResponse {
