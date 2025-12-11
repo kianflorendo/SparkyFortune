@@ -18,6 +18,9 @@ function App() {
   const [hasStarted, setHasStarted] = useState(false);
   const [showSparkySitting, setShowSparkySitting] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const resultCardRef = useRef<HTMLDivElement | null>(null);
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  const [anchorRect, setAnchorRect] = useState<{ left: number; top: number; width: number; height: number } | null>(null);
 
   useEffect(() => {
     // Only scroll if there are messages and user hasn't manually scrolled
@@ -27,6 +30,31 @@ function App() {
       }, 100);
     }
   }, [messages]);
+
+  useEffect(() => {
+    if (personalityResult) {
+      // compute chat container rect and set anchor for portal card without scrolling
+      setTimeout(() => {
+        let rect = chatContainerRef.current?.getBoundingClientRect();
+        console.log('Measured chat container rect:', rect);
+        if (!rect) {
+          // try measuring the inner messages column which is the visible chat area
+          const messagesEl = document.querySelector('.chat-messages') as HTMLElement | null;
+          rect = messagesEl ? messagesEl.getBoundingClientRect() : undefined;
+          console.log('Measured .chat-messages rect fallback:', rect);
+        }
+
+        if (rect) {
+          setAnchorRect({ left: rect.left, top: rect.top, width: rect.width, height: rect.height });
+        } else {
+          // fallback to viewport center
+          const cx = Math.round(window.innerWidth / 2);
+          const cy = Math.round(window.innerHeight / 2);
+          setAnchorRect({ left: cx - 200, top: cy - 120, width: 400, height: 240 });
+        }
+      }, 200); // small delay so layout settles before measurement
+    }
+  }, [personalityResult]);
 
   const startQuiz = () => {
     setShowSparkySitting(true);
@@ -123,6 +151,7 @@ function App() {
     setPersonalityResult(null);
     setHasStarted(false);
     setShowSparkySitting(false);
+    setAnchorRect(null);
   };
 
   return (
@@ -157,33 +186,37 @@ function App() {
       )}
 
       {hasStarted && (
-          <div className="chat-container">
-          <div className="chat-messages">
-            {messages.map(message => (
-              <ChatBubble key={message.id} message={message} />
-            ))}
+        <>
+          <div className="chat-container" ref={chatContainerRef}>
+            <div className="chat-messages">
+              {messages.map(message => (
+                <ChatBubble key={message.id} message={message} />
+              ))}
 
-            {!personalityResult && currentQuestionIndex < questions.length && !isProcessing && (
-              <QuestionOptions
-                options={questions[currentQuestionIndex].options}
-                onSelect={handleAnswer}
-                disabled={isProcessing}
-              />
-            )}
+              {!personalityResult && currentQuestionIndex < questions.length && !isProcessing && (
+                <QuestionOptions
+                  options={questions[currentQuestionIndex].options}
+                  onSelect={handleAnswer}
+                  disabled={isProcessing}
+                />
+              )}
 
-            <div ref={chatEndRef} />
+              <div ref={chatEndRef} />
+            </div>
           </div>
 
           {personalityResult && (
-            <PersonalityCard result={personalityResult} onRestart={handleRestart} />
+            <div ref={resultCardRef}>
+              <PersonalityCard result={personalityResult} onRestart={handleRestart} anchorRect={anchorRect} />
+            </div>
           )}
-          </div>
+        </>
       )}
 
       <footer className="app-footer">
         <div className="footer-content">
           <img src={sparkyMascot} alt="Sparky" className="footer-mascot" />
-          <p>Powered by <strong>Sparky</strong> | Made with Gemini AI</p>
+          <p>Powered by <strong>Sparky</strong> | Made with Gemini API</p>
         </div>
       </footer>
     </div>

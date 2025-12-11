@@ -20,6 +20,7 @@
     opacity: 0;
     transform: translateY(-20px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -28,23 +29,79 @@
 
 .bubble-content {
   width: fit-content;
-  padding: clamp(0.65rem, 2vw, 0.75rem) clamp(0.9rem, 2.5vw, 1rem);
+  padding: clamp(0.6rem, 1.6vw, 0.9rem) clamp(0.8rem, 2vw, 1.1rem);
   position: relative;
   margin: 0;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 
 
 .chat-bubble.bot .bubble-content {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  /* Premium Glassmorphism Background */
+  background:
+    radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+    linear-gradient(135deg, rgba(20, 20, 30, 0.95) 0%, rgba(30, 30, 40, 0.98) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
   color: #ffffff;
-  border: 2px solid #ffd700;
+
+  /* Animated Gradient Border */
+  border: 3px solid transparent;
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.15), transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.1), transparent 50%),
+    linear-gradient(135deg, rgba(20, 20, 30, 0.95), rgba(30, 30, 40, 0.98)),
+    linear-gradient(135deg, #8B5CF6, #FFD700, #8B5CF6, #FFD700);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 300% 300%;
+  animation: borderShimmer 6s ease-in-out infinite, questionFloat 4s ease-in-out infinite;
+
   text-align: left;
-  font-size: clamp(0.9rem, 2.2vw, 1.05rem);
-  line-height: 1.5;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.3);
-  max-width: min(650px, 85vw);
-  border-radius: 18px 18px 18px 4px;
+  font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.65;
+  letter-spacing: 0.3px;
+
+  box-shadow:
+    0 8px 32px rgba(138, 43, 226, 0.3),
+    0 4px 16px rgba(255, 215, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  max-width: min(720px, 84vw);
+  border-radius: 24px 24px 24px 6px;
+  padding: clamp(1rem, 2.2vw, 1.4rem) clamp(1.2rem, 2.8vw, 1.8rem);
+  position: relative;
+}
+
+@keyframes borderShimmer {
+
+  0%,
+  100% {
+    background-position: 0% 0%, 0% 0%, 0% 0%, 0% 50%;
+  }
+
+  50% {
+    background-position: 0% 0%, 0% 0%, 0% 0%, 100% 50%;
+  }
+}
+
+@keyframes questionFloat {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 .chat-bubble.user .bubble-content {
@@ -52,18 +109,78 @@
   color: #000000;
   border: 2px solid #ffa500;
   text-align: left;
-  font-size: clamp(0.95rem, 2.3vw, 1.05rem);
+  font-size: clamp(0.92rem, 2vw, 1.02rem);
   font-weight: 600;
   letter-spacing: 0;
   box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
-  max-width: min(650px, 75vw);
+  max-width: min(690px, 74vw);
   border-radius: 18px 18px 4px 18px;
 }
 
 .bubble-content p {
   margin: 0;
-  line-height: 1.5;
-  font-size: 1rem;
+  line-height: 1.45;
+  font-size: 0.95rem;
+}
+
+/* Short-viewport reductions to fit at 100% zoom */
+@media (max-height: 780px) {
+  .chat-bubble.bot {
+    padding-left: 1rem;
+  }
+
+  .chat-bubble.user {
+    padding-right: 1rem;
+  }
+
+  .bubble-content {
+    padding: 0.6rem 0.85rem;
+  }
+
+  .chat-bubble.bot .bubble-content,
+  .chat-bubble.user .bubble-content {
+    font-size: 0.92rem;
+  }
+}
+
+@media (max-height: 700px) {
+  .bubble-content {
+    padding: 0.55rem 0.8rem;
+  }
+
+  .chat-bubble.bot .bubble-content,
+  .chat-bubble.user .bubble-content {
+    font-size: 0.9rem;
+  }
+}
+
+/* Ultra-narrow width tweaks */
+@media (max-width: 360px) {
+  .chat-bubble.bot {
+    padding-left: 0.75rem;
+  }
+
+  .chat-bubble.user {
+    padding-right: 0.75rem;
+  }
+
+  .bubble-content {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .chat-bubble.bot .bubble-content {
+    max-width: 90vw;
+    font-size: 0.9rem;
+  }
+
+  .chat-bubble.user .bubble-content {
+    max-width: 88vw;
+    font-size: 0.9rem;
+  }
+
+  .bubble-content p {
+    font-size: 0.9rem;
+  }
 }
 
 .typing-indicator {
@@ -93,6 +210,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -100,9 +218,13 @@
 }
 
 @keyframes bounce {
-  0%, 80%, 100% {
+
+  0%,
+  80%,
+  100% {
     transform: scale(0);
   }
+
   40% {
     transform: scale(1);
   }
@@ -129,14 +251,137 @@
 }
 
 @media (max-width: 480px) {
+
   .bubble-content::before,
   .bubble-content::after {
     font-size: 1rem;
     top: 10px;
+  }
+
+  .bubble-content {
+    padding: 0.7rem 0.95rem;
+  }
+
+  .chat-bubble {
+    padding: 0.5rem;
+  }
+
+  .bubble-content {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+}
+
+@media (min-width: 1366px) {
+  .chat-bubble.bot .bubble-content {
+    max-width: 750px;
+    font-size: 1.08rem;
+    padding: 0.95rem 1.35rem;
+  }
+
+  .chat-bubble.user .bubble-content {
+    max-width: 720px;
+    font-size: 1.08rem;
+    padding: 0.95rem 1.35rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .chat-bubble.bot .bubble-content {
+    max-width: 800px;
+    font-size: 1.12rem;
+    padding: 1rem 1.5rem;
+  }
+
+  .chat-bubble.user .bubble-content {
+    max-width: 770px;
+    font-size: 1.12rem;
+    padding: 1rem 1.5rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .chat-bubble.bot .bubble-content {
+    max-width: 850px;
+    font-size: 1.15rem;
+    padding: 1.05rem 1.6rem;
+    line-height: 1.65;
+  }
+
+  .chat-bubble.user .bubble-content {
+    max-width: 820px;
+    font-size: 1.15rem;
+    padding: 1.05rem 1.6rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  .chat-bubble.bot .bubble-content {
+    max-width: 950px;
+    font-size: 1.2rem;
+    padding: 1.15rem 1.75rem;
+    line-height: 1.7;
+  }
+
+  .chat-bubble.user .bubble-content {
+    max-width: 920px;
+    font-size: 1.2rem;
+    padding: 1.15rem 1.75rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .chat-bubble.bot .bubble-content {
+    max-width: 1100px;
+    font-size: 1.3rem;
+    padding: 1.3rem 2rem;
+    line-height: 1.75;
+  }
+
+  .chat-bubble.user .bubble-content {
+    max-width: 1050px;
+    font-size: 1.3rem;
+    padding: 1.3rem 2rem;
   }
 }
 
 /* Custom Scrollbar for Chat Messages - Hidden but functional */
 .chat-messages::-webkit-scrollbar {
   width: 0px;
+}
+
+/* Reserve a left column for the Sparky sitting mascot so it doesn't overlap chat bubbles.
+   On wide screens we add left padding equal to the mascot width + gap. On small screens
+   the mascot is hidden to avoid covering content. These rules are conservative and
+   scoped so they won't drastically change existing spacing on narrow viewports. */
+@media (min-width: 900px) {
+  :root {
+    --sparky-width: clamp(120px, 20vw, 180px);
+    --sparky-gap: 14px;
+  }
+
+  .chat-container {
+    /* Add reserved space on the left so messages don't flow under the fixed mascot */
+    padding-left: calc(var(--sparky-width) + var(--sparky-gap));
+    box-sizing: border-box;
+  }
+
+  .chat-messages {
+    /* Reduce bubble area so messages wrap before the mascot zone */
+    padding-left: calc(var(--sparky-gap));
+  }
+
+  /* Ensure individual bubbles don't exceed the visible width (avoid overlapping the reserved area) */
+  .chat-bubble.bot .bubble-content,
+  .chat-bubble.user .bubble-content {
+    max-width: calc(100% - (var(--sparky-width) + var(--sparky-gap) + 48px));
+  }
+}
+
+@media (max-width: 899px) {
+
+  /* Hide the fixed mascot on narrower viewports so it never obscures chat content */
+  .sparky-sitting-container {
+    display: none !important;
+  }
 }

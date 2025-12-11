@@ -1,401 +1,373 @@
 .sparky-flying {
-  position: fixed;
-  top: calc(50% - clamp(280px, 35vh, 360px));
-  left: calc(50% + clamp(150px, 20vw, 220px));
-  width: clamp(120px, 18vw, 200px);
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: clamp(80px, 12vw, 110px);
   height: auto;
-  z-index: 10001;
-  animation: floatSparky 3s ease-in-out infinite;
-  filter: drop-shadow(0 8px 20px rgba(255, 215, 0, 0.4));
+  z-index: 11002;
+  animation: floatSparky 3s ease-in-out infinite, flyInSide 1s ease-out backwards;
+  filter: drop-shadow(0 10px 25px rgba(255, 215, 0, 0.5));
   pointer-events: none;
+  transition: all 0.3s ease;
 }
 
-@keyframes flyIn {
+@keyframes flyInSide {
   0% {
     opacity: 0;
-    left: calc(50% + 500px);
-    transform: translate(-50%, -50%) rotate(20deg) scale(0.5);
+    transform: translate(50px, -20px) rotate(15deg) scale(0.8);
   }
+
   100% {
     opacity: 1;
-    left: calc(50% + 320px);
-    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    transform: translate(0, 0) rotate(0deg) scale(1);
   }
 }
 
 @keyframes floatSparky {
-  0%, 100% {
-    transform: translateY(0px) rotate(-5deg);
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(-3deg);
   }
+
+  25% {
+    transform: translateY(-12px) rotate(2deg);
+  }
+
   50% {
-    transform: translateY(-15px) rotate(5deg);
+    transform: translateY(-20px) rotate(3deg);
+  }
+
+  75% {
+    transform: translateY(-12px) rotate(-2deg);
   }
 }
 
-/* Tablet and mobile responsiveness for Sparky */
-@media (max-width: 1024px) {
-  .sparky-flying {
-    top: calc(50% - clamp(250px, 30vh, 320px));
-    left: calc(50% + clamp(130px, 18vw, 180px));
-    width: clamp(100px, 15vw, 140px);
-  }
-}
-
-@media (max-width: 768px) {
-  .sparky-flying {
-    top: calc(50% - 220px);
-    left: calc(50% + 120px);
-    width: 90px;
-  }
+.personality-result-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 11000;
+  pointer-events: none;
 }
 
 .personality-card {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: min(600px, 95vw);
-  width: calc(100% - clamp(1rem, 3vw, 2rem));
-  max-height: min(85vh, 85dvh);
+  position: relative;
+  pointer-events: auto;
+  margin: 0;
+  max-width: min(720px, 90vw);
+  width: 100%;
+  overflow: hidden;
+  /* Fix border clipping using overflow hidden */
+
+  /* Opaque Glass Material */
+  /* Premium Gold Border & Background */
+  border: 2px solid transparent;
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  background-image:
+    linear-gradient(160deg, rgba(30, 30, 35, 0.95), rgba(10, 10, 15, 0.99)),
+    linear-gradient(135deg, #FFD700, #FDB931, #FFFFAC, #FDB931, #FFD700);
+  background-size: 100% 100%, 300% 300%;
+
+  border-radius: 24px;
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.9),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    inset 0 0 30px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(255, 215, 0, 0.2);
+
+  animation: modalPopIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both, goldShimmer 5s ease infinite alternate;
+  z-index: 11001;
+  max-height: 90vh;
   overflow-y: auto;
-  overflow-x: hidden;
-  background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
-  border: 3px solid #ffd700;
-  border-radius: 20px;
-  box-shadow: 
-    0 20px 60px rgba(255, 215, 0, 0.3),
-    0 10px 30px rgba(0, 0, 0, 0.5),
-    inset 0 0 50px rgba(255, 215, 0, 0.1);
-  animation: modalPopIn 0.3s ease-out;
-  z-index: 10000;
+  scrollbar-width: none;
+}
+
+@keyframes goldShimmer {
+  0% {
+    background-position: 100% 100%, 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 100%, 100% 50%;
+  }
 }
 
 .personality-card::-webkit-scrollbar {
   width: 0px;
+  display: none;
 }
 
 .personality-card-backdrop {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.6);
-  z-index: 9999;
-  animation: fadeIn 0.3s ease-out;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 10999;
+  animation: fadeIn 0.4s ease-out;
+  display: block;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
 
+  to {
+    opacity: 1;
+  }
+}
 
 @keyframes modalPopIn {
   0% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.9);
+    transform: scale(0.9);
   }
+
   100% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
   }
 }
 
-
-
 .card-header {
-  padding: clamp(2rem, 5vw, 2.5rem) clamp(1.5rem, 4vw, 2rem);
+  padding: clamp(1.5rem, 3vw, 2rem);
   text-align: center;
   color: white;
   position: relative;
   overflow: visible;
-  border-bottom: 2px solid #ffd700;
-  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-  border-radius: 17px 17px 0 0;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+  background: linear-gradient(180deg, rgba(255, 215, 0, 0.05) 0%, transparent 100%);
+  border-radius: 24px 24px 0 0;
+  margin-top: -2px;
 }
 
 .card-header::before {
-  content: '⋆';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 15rem;
-  color: rgba(255, 215, 0, 0.05);
-  animation: rotateDecoration 30s linear infinite;
-  z-index: 0;
-}
-
-@keyframes rotateDecoration {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-.card-header::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-  animation: shimmer 3s infinite;
-  z-index: 1;
+  display: none;
 }
 
 .card-header h2 {
-  margin: 0 0 clamp(0.75rem, 2vw, 1rem) 0;
-  font-size: clamp(0.8rem, 2vw, 0.9rem);
-  font-weight: 600;
+  margin: 0 0 0.8rem 0;
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+  font-weight: 800;
   color: #fff;
   text-transform: uppercase;
-  letter-spacing: clamp(1px, 0.5vw, 2px);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  letter-spacing: 3px;
+  position: relative;
+  z-index: 1;
+  text-shadow:
+    0 0 20px rgba(255, 215, 0, 0.8),
+    0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .card-header h1 {
   margin: 0;
-  font-size: clamp(1.75rem, 5vw, 2.2rem);
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: clamp(0.5px, 0.3vw, 1px);
-  text-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.9),
-    0 4px 8px rgba(0, 0, 0, 0.6),
-    0 0 20px rgba(0, 0, 0, 0.3);
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  text-shadow:
+    0 0 25px rgba(255, 215, 0, 0.7),
+    0 4px 12px rgba(0, 0, 0, 0.5),
+    0 0 50px rgba(255, 215, 0, 0.4);
+  position: relative;
+  z-index: 1;
+  line-height: 1.15;
 }
 
 .card-body {
-  padding: clamp(1.5rem, 4vw, 2rem);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
 }
 
 .message-section {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
-.message-section h3 {
+.message-section h3,
+.traits-section h3 {
   color: #ffd700;
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
   letter-spacing: 0.5px;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
 }
 
 .message {
-  background: rgba(255, 215, 0, 0.05);
-  padding: 1.5rem;
-  border-radius: 12px;
-  border: 2px solid #ffd700;
-  font-size: 1.05rem;
-  line-height: 1.7;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1.2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  font-size: 1rem;
+  line-height: 1.6;
   color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
-  position: relative;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: normal;
-  text-align: left;
-}
-
-.message::before {
-  content: '';
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .traits-section {
   margin-bottom: 2rem;
 }
 
-.traits-section h3 {
-  color: #ffd700;
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
-  font-weight: 600;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-  letter-spacing: 0.5px;
-}
-
 .traits-list {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 
 .traits-list li {
-  background: rgba(255, 215, 0, 0.05);
-  padding: 1rem 1.2rem;
-  margin-bottom: 0.8rem;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  border-left: 4px solid #ffd700;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.9rem 1.2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 215, 0, 0.1);
   color: rgba(255, 255, 255, 0.9);
-  font-size: 0.95rem;
-  line-height: 1.6;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-@keyframes glowPulse {
-  0%, 100% { box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 215, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1); }
-  50% { box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 215, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1); }
-}
-
-.traits-list li:nth-child(1) { animation-delay: 0.1s; }
-.traits-list li:nth-child(2) { animation-delay: 0.2s; }
-.traits-list li:nth-child(3) { animation-delay: 0.3s; }
-.traits-list li:nth-child(4) { animation-delay: 0.4s; }
-.traits-list li:nth-child(5) { animation-delay: 0.5s; }
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  font-size: 1rem;
+  line-height: 1.4;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
 }
 
 .traits-list li:hover {
   transform: translateX(5px);
-  background: rgba(255, 215, 0, 0.1);
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-  border-left-width: 5px;
+  background: rgba(255, 215, 0, 0.15);
+  border-color: rgba(255, 215, 0, 0.4);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
 }
 
 .restart-button {
   width: 100%;
   padding: 1rem;
-  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  background: linear-gradient(135deg, #ffd700 0%, #ffb700 100%);
   color: #000;
-  border: 2px solid #ffd700;
-  border-radius: 12px;
-  font-size: 1.05rem;
+  border: none;
+  border-radius: 14px;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
   text-transform: uppercase;
   letter-spacing: 1px;
+  min-height: 48px;
+  position: relative;
+  overflow: hidden;
 }
 
 .restart-button:hover {
-  background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
-  box-shadow: 0 6px 25px rgba(255, 215, 0, 0.6);
+  background: linear-gradient(135deg, #ffb700 0%, #ffd700 100%);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
   transform: translateY(-2px);
 }
 
 .restart-button:active {
   transform: translateY(0);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2);
 }
 
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+.card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
 }
 
-.personality-card {
-  max-width: 750px;
+.download-button {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+  min-height: 48px;
+  position: relative;
+  overflow: hidden;
 }
 
+.download-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.download-button:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+.download-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+  background: linear-gradient(135deg, #5aa0f2 0%, #4580cd 100%);
+}
+
+.download-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2);
+}
+
+.download-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+}
+
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
   .sparky-flying {
-    display: none;
+    top: 10px;
+    right: 10px;
+    width: clamp(70px, 10vw, 90px);
   }
 
   .personality-card {
+    max-width: min(650px, 94vw);
     width: calc(100% - 1.5rem);
-    max-width: 96vw;
-    max-height: min(88vh, 88dvh);
-  }
-
-  .card-header {
-    padding: 2rem 1.5rem;
+    max-height: 85vh;
   }
 
   .card-header h1 {
-    font-size: clamp(1.6rem, 6vw, 2rem);
-  }
-
-  .card-header h2 {
-    font-size: clamp(0.8rem, 2.5vw, 0.9rem);
-  }
-
-  .card-body {
-    padding: 1.5rem 1.25rem;
-  }
-  
-  .message {
-    font-size: clamp(0.95rem, 2.5vw, 1.05rem);
-    padding: clamp(1.25rem, 3vw, 1.5rem);
-    line-height: 1.65;
-  }
-
-  .message-section h3,
-  .traits-section h3 {
-    font-size: clamp(1.05rem, 3vw, 1.2rem);
-    margin-bottom: 0.85rem;
-  }
-
-  .traits-list li {
-    font-size: clamp(0.9rem, 2.5vw, 1rem);
-    padding: clamp(0.85rem, 2.5vw, 1rem) clamp(1rem, 2.5vw, 1.2rem);
-  }
-
-  .restart-button {
-    font-size: clamp(0.95rem, 2.5vw, 1.05rem);
-    padding: clamp(0.9rem, 2.5vw, 1rem);
+    font-size: 2rem;
   }
 }
 
 @media (max-width: 480px) {
+  .sparky-flying {
+    top: 8px;
+    right: 8px;
+    width: clamp(55px, 8vw, 75px);
+  }
+
   .personality-card {
     width: calc(100% - 1rem);
-    max-width: 98vw;
-    border-radius: 16px;
+    border-radius: 20px;
   }
 
   .card-header {
-    padding: 1.75rem 1.25rem;
-    border-radius: 13px 13px 0 0;
-  }
-
-  .card-header h1 {
-    font-size: 1.6rem;
-  }
-
-  .card-header h2 {
-    font-size: 0.8rem;
-    letter-spacing: 1px;
+    padding: 1.5rem;
   }
 
   .card-body {
-    padding: 1.25rem 1rem;
-  }
-
-  .message {
-    font-size: 0.95rem;
-    padding: 1.25rem;
-  }
-
-  .message-section h3,
-  .traits-section h3 {
-    font-size: 1.05rem;
-  }
-
-  .traits-list li {
-    font-size: 0.9rem;
-    padding: 0.85rem 1rem;
-    margin-bottom: 0.65rem;
-  }
-
-  .restart-button {
-    font-size: 0.95rem;
-    padding: 0.9rem;
+    padding: 1.5rem;
   }
 }

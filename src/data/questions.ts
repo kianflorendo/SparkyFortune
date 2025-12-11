@@ -5,10 +5,10 @@ export const questions: Question[] = [
     id: 1,
     text: "Pick your favorite tech gadget!",
     options: [
-      "Smartphone - Always connected",
-      "Laptop - Power and versatility",
-      "Smart Watch - Health and efficiency",
-      "VR Headset - Immersive experiences"
+      "Smartphone",
+      "Laptop",
+      "Smart Watch",
+      "VR Headset"
     ],
     emoji: "📱"
   },
@@ -16,10 +16,10 @@ export const questions: Question[] = [
     id: 2,
     text: "Choose your favorite color palette!",
     options: [
-      "Blue & Purple - Calm and creative",
-      "Red & Orange - Bold and energetic",
-      "Green & Yellow - Fresh and optimistic",
-      "Black & Gold - Elegant and sophisticated"
+      "Blue & Purple",
+      "Red & Orange",
+      "Green & Yellow",
+      "Black & Gold"
     ],
     emoji: "🎨"
   },
@@ -27,10 +27,10 @@ export const questions: Question[] = [
     id: 3,
     text: "Which skill excites you the most?",
     options: [
-      "Problem Solving - Finding solutions",
-      "Creative Design - Making things beautiful",
-      "Communication - Connecting with people",
-      "Technical Skills - Building & coding"
+      "Problem Solving",
+      "Creative Design",
+      "Communication",
+      "Technical Skills"
     ],
     emoji: "⚡"
   },
@@ -49,10 +49,10 @@ export const questions: Question[] = [
     id: 5,
     text: "What's your dream work environment?",
     options: [
-      "Startup - Fast-paced and innovative",
-      "Creative Studio - Artistic and flexible",
-      "Tech Giant - Structured and resourceful",
-      "Remote - Freedom and independence"
+      "Startup",
+      "Creative Studio",
+      "Tech Giant",
+      "Remote"
     ],
     emoji: "🚀"
   }
