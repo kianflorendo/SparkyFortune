@@ -43,12 +43,19 @@ export const PersonalityCard = ({ result, onRestart }: PersonalityCardProps) => 
 
       // 3. Style the CLONE for perfect export
       // Remove interactive transforms and animations that might look weird in a snapshot
-      clonedCard.style.transform = 'scale(1.1)'; // Slight scale up for impact
-      clonedCard.style.animation = 'none';
-      clonedCard.style.margin = '0';
-      clonedCard.style.boxShadow = '0 50px 100px -20px rgba(0,0,0,0.7)'; // Deep polished shadow
-      clonedCard.style.maxHeight = 'none';
-      clonedCard.style.overflow = 'visible'; // CRITICAL: Allow Sparky to be visible outside bounds
+      // FORCE DESKTOP LAYOUT: We explicitly set width to ~800px to trigger the desktop media query styles
+      // scale(1.1) combined with the 3x canvas scale ensures high res.
+      Object.assign(clonedCard.style, {
+        transform: 'scale(1.1)',
+        animation: 'none',
+        margin: '0',
+        boxShadow: '0 50px 100px -20px rgba(0,0,0,0.7)',
+        maxHeight: 'none',
+        overflow: 'visible',
+        width: '800px',        // FIXED WIDTH to force desktop layout
+        maxWidth: 'none',      // Override any responsive max-width
+        minWidth: '800px'      // Ensure it doesn't shrink
+      });
 
       // Fix Sparky in the clone
       const sparky = clonedCard.querySelector('.sparky-flying') as HTMLElement;
@@ -103,7 +110,9 @@ export const PersonalityCard = ({ result, onRestart }: PersonalityCardProps) => 
         backgroundColor: null,
         logging: false,
         width: 1200,
-        height: 1800
+        height: 1800,
+        windowWidth: 1920, // Force desktop viewport for media queries
+        windowHeight: 1080
       } as any);
 
       // 5. Download
