@@ -7,6 +7,7 @@ import html2canvas from 'html2canvas';
 interface PersonalityCardProps {
   result: PersonalityResult;
   onRestart: () => void;
+  anchorRect?: { left: number; top: number; width: number; height: number } | null;
 }
 
 export const PersonalityCard = ({ result, onRestart }: PersonalityCardProps) => {
