@@ -13,6 +13,7 @@ interface PersonalityCardProps {
 export const PersonalityCard = ({ result, onRestart }: PersonalityCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [email, setEmail] = useState('');
 
   const handleDownload = async () => {
     if (!cardRef.current) return;
@@ -93,7 +94,7 @@ export const PersonalityCard = ({ result, onRestart }: PersonalityCardProps) => 
         (el.style as any).webkitBackdropFilter = 'none';
       });
 
-      // Hide buttons in the clone (we don't want download buttons in the image)
+      // Hide buttons AND input in the clone (we don't want download buttons in the image)
       const actions = clonedCard.querySelector('.card-actions') as HTMLElement;
       if (actions) actions.style.display = 'none';
 
@@ -123,8 +124,17 @@ export const PersonalityCard = ({ result, onRestart }: PersonalityCardProps) => 
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        const safeType = result.type.replace(/\s+/g, '-').replace(/[^a-z0-9-]/gi, '');
-        const filename = `FunFortune-${safeType}.png`;
+
+        let filename;
+        if (email && email.trim() !== '') {
+          // Sanitize email to be safe for filename
+          const safeEmail = email.trim().replace(/[^a-zA-Z0-9@._-]/g, '_');
+          filename = `FunFortune-${safeEmail}.png`;
+        } else {
+          const safeType = result.type.replace(/\s+/g, '-').replace(/[^a-z0-9-]/gi, '');
+          filename = `FunFortune-${safeType}.png`;
+        }
+
         link.download = filename;
         link.click();
 
@@ -169,9 +179,14 @@ export const PersonalityCard = ({ result, onRestart }: PersonalityCardProps) => 
               </ul>
             </div>
 
-
-
             <div className="card-actions">
+              <input
+                type="email"
+                placeholder="Enter your email (optional)"
+                className="email-input"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
               <button
                 className="download-button"
                 onClick={handleDownload}
